@@ -1,5 +1,5 @@
 package com.pluralsight;
-
+import java.math.BigDecimal;
 public abstract class Contract {
 
     private String date;
@@ -7,8 +7,7 @@ public abstract class Contract {
     private String customerEmail;
     private Vehicle vehicleSold;
 
-    public Contract(String date, String customerName,
-                    String customerEmail, Vehicle vehicleSold) {
+    public Contract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
         this.date = date;
         this.customerName = customerName;
         this.customerEmail = customerEmail;

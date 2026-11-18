@@ -1,8 +1,6 @@
 package com.pluralsight;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 public class Dealership {
     private String name;
     private String address;
@@ -33,8 +31,6 @@ public class Dealership {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
     public ArrayList<Vehicle> getAllVehicles() {
         return inventory;
     }
@@ -48,32 +44,26 @@ public class Dealership {
         ArrayList<Vehicle> results = new ArrayList<>();
 
         for (Vehicle vehicle : inventory) {
-            if (vehicle.getPrice().compareTo(min) >= 0 &&
-                    vehicle.getPrice().compareTo(max) <= 0) {
+            if (vehicle.getPrice().compareTo(min) >= 0 && vehicle.getPrice().compareTo(max) <= 0) {
                 results.add(vehicle);
             }
         }
-
         return results;
     }
     public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model) {
         ArrayList<Vehicle> results = new ArrayList<>();
-
         for (Vehicle vehicle : inventory) {
-            if (vehicle.getMake().equalsIgnoreCase(make) &&
-                    vehicle.getModel().equalsIgnoreCase(model)) {
+            if (vehicle.getMake().equalsIgnoreCase(make) && vehicle.getModel().equalsIgnoreCase(model)) {
                 results.add(vehicle);
             }
         }
-
         return results;
     }
     public ArrayList<Vehicle> getVehiclesByYear(int min, int max) {
         ArrayList<Vehicle> results = new ArrayList<>();
 
         for (Vehicle vehicle : inventory) {
-            if (vehicle.getVin() >= min &&
-                    vehicle.getVin() <= max) {
+            if (vehicle.getVin() >= min && vehicle.getYear() <= max) {
                 results.add(vehicle);
             }
         }
@@ -95,12 +85,10 @@ public class Dealership {
         ArrayList<Vehicle> results = new ArrayList<>();
 
         for (Vehicle vehicle : inventory) {
-            if (vehicle.getOdometer() >= min &&
-                    vehicle.getOdometer() <= max) {
+            if (vehicle.getOdometer() >= min && vehicle.getOdometer() <= max) {
                 results.add(vehicle);
             }
         }
-
         return results;
     }
     public ArrayList<Vehicle> getVehiclesByType(String vehicleType) {
@@ -111,7 +99,6 @@ public class Dealership {
                 results.add(vehicle);
             }
         }
-
         return results;
     }
 }

@@ -1,3 +1,4 @@
+
 package com.pluralsight;
 
 import java.math.BigDecimal;
@@ -13,16 +14,18 @@ public class Console {
                  CAR DEALERSHIP
 ==================================================
 
-    [1] Find Vehicles by Price
-    [2] Find Vehicles by Make/Model
-    [3] Find Vehicles by Year
-    [4] Find Vehicles by Color
-    [5] Find Vehicles by Mileage
-    [6] Find Vehicles by Type
-    [7] View All Vehicles
-    [8] Add Vehicle
-    [9] Remove Vehicle
-    [X] Exit
+   [1] Find Vehicles by Price
+   [2] Find Vehicles by Make/Model
+   [3] Find Vehicles by Year
+   [4] Find Vehicles by Color
+   [5] Find Vehicles by Mileage
+   [6] Find Vehicles by Type
+   [7] View All Vehicles
+   [8] Add Vehicle
+   [9] Remove Vehicle
+   [10] Sell Vehicle
+   [11] Lease Vehicle
+   [X] Exit
 
 ==================================================
 """);
@@ -67,13 +70,13 @@ public class Console {
 
         System.out.println("""
 ==================================================
-                  VEHICLE LIST
+                 VEHICLE LIST
 ==================================================
 """);
 
         System.out.printf(
                 "%-8s | %-6s | %-12s | %-12s | %-12s | %-10s | %-10s | %-10s%n",
-                "ID", "Year", "Make", "Model", "Type", "Color", "Mileage", "Price"
+                "VIN", "Year", "Make", "Model", "Type", "Color", "Mileage", "Price"
         );
 
         System.out.println("------------------------------------------------------------------------------------------------");
@@ -81,8 +84,8 @@ public class Console {
         for (Vehicle vehicle : vehicles) {
             System.out.printf(
                     "%-8d | %-6d | %-12s | %-12s | %-12s | %-10s | %-10d | $%-10s%n",
-                    vehicle.getId(),
                     vehicle.getVin(),
+                    vehicle.getYear(),
                     vehicle.getMake(),
                     vehicle.getModel(),
                     vehicle.getVehicleType(),
@@ -92,6 +95,7 @@ public class Console {
             );
         }
     }
+
     public static void pressEnterToContinue() {
         System.out.print("\nPress Enter to continue...");
         scanner.nextLine();

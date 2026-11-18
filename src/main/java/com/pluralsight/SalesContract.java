@@ -1,24 +1,18 @@
 package com.pluralsight;
 
-
 public class SalesContract extends Contract {
-
     private double salesTaxAmount;
     private double recordingFee;
     private double processingFee;
     private boolean finance;
 
-    public SalesContract(String date, String customerName,
-                         String customerEmail, Vehicle vehicleSold,
-                         boolean finance) {
-
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean finance) {
         super(date, customerName, customerEmail, vehicleSold);
-
         this.finance = finance;
-        this.salesTaxAmount = vehicleSold.getPrice() * 0.05;
         this.recordingFee = 100;
-
-        if (vehicleSold.getPrice() < 10000) {
+        double price = vehicleSold.getPrice().doubleValue();
+        this.salesTaxAmount = price * 0.05;
+        if (price < 10000) {
             this.processingFee = 295;
         } else {
             this.processingFee = 495;
@@ -59,20 +53,17 @@ public class SalesContract extends Contract {
 
     @Override
     public double getTotalPrice() {
-        return getVehicleSold().getPrice()
-                + salesTaxAmount
-                + recordingFee
-                + processingFee;
+        double price = getVehicleSold().getPrice().doubleValue();
+        return price + salesTaxAmount + recordingFee + processingFee;
     }
 
     @Override
     public double getMonthlyPayment() {
-
         if (!finance) {
             return 0;
         }
 
-        double price = getVehicleSold().getPrice();
+        double price = getVehicleSold().getPrice().doubleValue();
         double interestRate;
         int months;
 
@@ -87,8 +78,6 @@ public class SalesContract extends Contract {
         double monthlyRate = interestRate / 12;
         double total = getTotalPrice();
 
-        return total * monthlyRate /
-                (1 - Math.pow(1 + monthlyRate, -months));
+        return total * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
     }
 }
-

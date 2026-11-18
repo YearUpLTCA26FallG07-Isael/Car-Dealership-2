@@ -1,23 +1,15 @@
 package com.pluralsight;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UserInterface {
     private Dealership dealership;
-    private Scanner scanner = new Scanner(System.in);
-
     public void display() {
         init();
-
         boolean running = true;
-
         while (running) {
             Console.displayMenu();
-
             String choice = Console.promptForString("Enter your choice: ");
-
             switch (choice.toUpperCase()) {
                 case "1":
                     processGetByPriceRequest();
@@ -45,6 +37,12 @@ public class UserInterface {
                     break;
                 case "9":
                     processRemoveVehicleRequest();
+                    break;
+                case "10":
+                    processContract(true);
+                    break;
+                case "11":
+                    processContract(false);
                     break;
                 case "X":
                     running = false;
@@ -127,8 +125,9 @@ public class UserInterface {
         Console.pressEnterToContinue();
     }
 
+
     private void processAddVehicleRequest() {
-        int id = Console.promptForInt("Enter vehicle ID: ");
+        int vin = Console.promptForInt("Enter vehicle VIN: ");
         int year = Console.promptForInt("Enter vehicle year: ");
         String make = Console.promptForString("Enter vehicle make: ");
         String model = Console.promptForString("Enter vehicle model: ");
@@ -137,9 +136,7 @@ public class UserInterface {
         int odometer = Console.promptForInt("Enter vehicle mileage: ");
         BigDecimal price = Console.promptForBigDecimal("Enter vehicle price: ");
 
-        Vehicle vehicle = new Vehicle(
-                id, year, make, model, vehicleType,
-                color, odometer, price
+        Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price
         );
 
         dealership.addVehicle(vehicle);
@@ -154,12 +151,12 @@ public class UserInterface {
     }
 
     private void processRemoveVehicleRequest() {
-        int id = Console.promptForInt("Enter vehicle ID to remove: ");
+        int vin = Console.promptForInt("Enter vehicle VIN to remove: ");
 
         Vehicle vehicleToRemove = null;
 
         for (Vehicle vehicle : dealership.getAllVehicles()) {
-            if (vehicle.getId() == id) {
+            if (vehicle.getVin() == vin) {
                 vehicleToRemove = vehicle;
                 break;
             }
@@ -178,4 +175,60 @@ public class UserInterface {
 
         Console.pressEnterToContinue();
     }
+
+    private void processContract(boolean isSale) {
+
+        int vin = Console.promptForInt("Enter VIN: ");
+
+        Vehicle selectedVehicle = null;
+
+        for (Vehicle vehicle : dealership.getAllVehicles()) {
+            if (vehicle.getVin() == vin) {
+                selectedVehicle = vehicle;
+                break;
+            }
+        }
+
+        if (selectedVehicle == null) {
+            Console.displayMessage("Vehicle not found.");
+            Console.pressEnterToContinue();
+            return;
+        }
+
+        String date = Console.promptForString("Enter date (YYYYMMDD): ");
+        String name = Console.promptForString("Enter customer name: ");
+        String email = Console.promptForString("Enter customer email: ");
+
+        Contract contract;
+
+        if (isSale) {
+            String answer = Console.promptForString("Finance? (yes/no): ");
+
+            while (!answer.equalsIgnoreCase("yes") &&
+                    !answer.equalsIgnoreCase("no")) {
+                answer = Console.promptForString("Please enter yes or no: ");
+            }
+
+            boolean finance = answer.equalsIgnoreCase("yes");
+
+            contract = new SalesContract(
+                    date, name, email, selectedVehicle, finance
+            );
+
+        } else {
+            contract = new LeaseContract(
+                    date, name, email, selectedVehicle
+            );
+        }
+
+        ContractDataManager manager = new ContractDataManager();
+        manager.saveContract(contract);
+
+        System.out.printf("Total: $%.2f%n", contract.getTotalPrice());
+        System.out.printf("Monthly Payment: $%.2f%n",
+                contract.getMonthlyPayment());
+
+        Console.pressEnterToContinue();
+    }
+
 }
